@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/streadway/amqp"
 )
@@ -36,8 +38,11 @@ func SendMessage() {
 
 	// Let's catch the message from the terminal
 	var mPayload string
+	scanner := bufio.NewScanner(os.Stdin)
 	fmt.Print("Please enter message: ")
-	fmt.Scan(&mPayload)
+	if scanner.Scan() {
+		mPayload = scanner.Text()
+	}
 
 	// Set the payload for the message
 	err = ch.Publish(
